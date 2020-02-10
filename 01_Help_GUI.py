@@ -34,7 +34,7 @@ class Converter:
 
 
 class Help:
-    def _init_(self, partner):
+    def __init__(self, partner):
 
         background = "orange"
 
@@ -79,31 +79,3 @@ if __name__ == "__main__":
     root.title("Temperature Converter")
     something = Converter()
     root.mainloop()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
