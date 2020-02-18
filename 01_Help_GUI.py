@@ -78,31 +78,3 @@ if __name__ == "__main__":
     root.title("Temperature Converter")
     something = Converter()
     root.mainloop()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
