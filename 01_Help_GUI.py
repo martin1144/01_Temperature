@@ -1,6 +1,5 @@
 from tkinter import *
 from functools import partial  # To prevent unwanted windows
-
 import random
 
 
@@ -25,7 +24,7 @@ class Converter:
             self.help_button = Button (self.converter_frame, text="help",
                                        font=("Arial", "14"),
                                        padx=10, pady=10, command=self.help)
-            self.help_button.grid(row=1)
+            self.help_button.grid(row=1, pady=10)
 
         def help(self):
             print("You asked for help")
@@ -34,7 +33,7 @@ class Converter:
 
 
 class Help:
-    def _init_(self, partner):
+    def __init__(self, partner):
 
         background = "orange"
 
@@ -53,7 +52,7 @@ class Help:
 
         # Set up Help heading (row 0)
         self.how_heading = Label(self.help_frame, text="help / Instructions",
-                                 font="arial 14 bold", bf=background)
+                                 font="arial 14 bold", bg=background)
         self.how_heading.grid(row=0)
 
         # Help text (label, row 1)
