@@ -7,7 +7,10 @@ class Converter:
     def __init__(self):
 
         # Formatting variables
-        background_color = "light blue"
+        background_color = "light blue"''
+
+        # Initialise list to hold calculation history
+        self.all_calculations = []
 
         # Converter Frame
         self.converter_frame = Frame(bg=background_color,
@@ -115,7 +118,13 @@ class Converter:
             if has_errors == "no":
                 self.converted_label.configure(text=answer, fg="blue")
                 self.to_convert_entry.configure(bg="white")
+            else:
+                self.converted_label.configure(text=answer, fg="blue")
+                self.to_convert_entry.configure(bg=error)
             # Add Answer to list for history
+            if answer != "Too Cold":
+                self.all_calculations.append(answer)
+                print(self.all_calculations)
 
             else:
                 self.converted_label.configure(text=answer, fg="red")

@@ -19,7 +19,19 @@ while has_error == "yes":
         elif letter == " ":
                 problem = "(no spaces allowed)"
         else:
-            problem
+            problem = ("no {}'s allowed)".format(letter))
+        has_error = "yes"
+
+    if filename == "":
+        problem = "can't be blank"
+        has_error = "yes"
+
+    if has_error == "yes":
+        print("Invalid filename - {}".format(problem))
+        print()
+    else:
+        print("You entered a valid filename")
+
 
 # add .txt suffix!
 filename = filename + ".txt"
