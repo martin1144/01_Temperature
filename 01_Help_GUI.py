@@ -9,6 +9,12 @@ class Converter:
             # Formatting variables..
             background_color = "light blue"
 
+            # In actual program this is blank and is populated with user calculations
+            self.all_calc_list = ['0 degrees C is 32.0 degrees F',
+                                  '40 degrees C is 104.0 degrees F',
+                                  '100 degrees C is 212.0 degrees F',
+                                  '3 degrees C is 37.4 degrees F']
+
             # Converter Main Screen GUI...
             self.converter_frame = Frame(width=600, height=600, bg=background_color)
             self.converter_frame.grid()
@@ -21,21 +27,21 @@ class Converter:
             self.temp_converter_label.grid(row=0)
 
             # Help Button (row 1)
-            self.help_button = Button (self.converter_frame, text="help",
+            self.help_button = Button (self.converter_frame, text="Help",
                                        font=("Arial", "14"),
                                        padx=10, pady=10, command=self.help)
             self.help_button.grid(row=1, pady=10)
 
         def help(self):
             print("You asked for help")
-            get_help = Help(self)
+            get_help = help(self)
             get_help.help_text.configure(text="Help text goes here")
 
 
-class Help:
+class History:
     def __init__(self, partner):
 
-        background = "orange"
+        background = "#a9ef99"      # Pale green
 
         # disable help button
         partner.help_button.config(state=DISABLED)
@@ -50,15 +56,22 @@ class Help:
         self.help_frame = Frame(self.help_box, bg=background)
         self.help_frame.grid()
 
-        # Set up Help heading (row 0)
+        # Set up History heading (row 0)
         self.how_heading = Label(self.help_frame, text="help / Instructions",
                                  font="arial 14 bold", bg=background)
         self.how_heading.grid(row=0)
 
-        # Help text (label, row 1)
-        self.help_text = Label(self.help_frame, text="",
-                               justify=LEFT, width=40, bg=background, wrap=250)
-        self.help_text.grid(column=0, row=1)
+        # History text (label, row 1)
+        self.help_text = Label(self.help_frame,
+                                        text="Here are your most recent "
+                                             "calculations. Please use the "
+                                             "export button to create a text "
+                                             "file of all your calculations for "
+                                             "this session", wrap=250,
+                                        font="arial 10 italic",
+                                        justify=LEFT, bg=background, fg="maroon",
+                                        padx=10, pady=10)
+        self.help_text.grid(row=1)
 
         # Dismiss button (row 2)
         self.dismiss_btn = Button(self.help_frame, text="Dismiss",
