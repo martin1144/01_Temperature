@@ -106,14 +106,6 @@ class Converter:
                 answer = "Too Cold!"
                 has_errors = "yes"
 
-            # Check amount is a valid number
-
-            # Convert to F
-
-            # Convert to C
-
-            # Round!!
-
             # Display answer
             if has_errors == "no":
                 self.converted_label.configure(text=answer, fg="blue")
