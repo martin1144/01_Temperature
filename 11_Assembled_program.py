@@ -67,9 +67,10 @@ class Converter:
         self.hist_help_frame = Frame(self.converter_frame)
         self.hist_help_frame.grid(row=6, pady=10)
 
-        self.calc_hist_button = Button(self.hist_help_frame, font="Arial 12 bold",
-                                       text="Calculation History", width=15)
-        self.calc_hist_button.grid(row=0, column=0)
+        self.history_button = Button(self.hist_help_frame, font="Arial 12 bold",
+                                       text="Calculation History", width=15,
+                                       command=lambda: self.history(self.all_calculations))
+        self.history_button.grid(row=0, column=0,)
 
         self.help_button = Button(self.hist_help_frame, font="Arial 12 bold",
                                   text="Help", width=5, command=self.help)
@@ -147,6 +148,9 @@ class Converter:
         get_help = Help(self)
         get_help.help_text.configure(text="Help text goes here")
 
+    def history(self, all_calc_list):
+        print("You asked for history")
+        History(self, all_calc_list)
 
 class Help:
     def __init__(self, partner):
@@ -188,10 +192,73 @@ class Help:
         self.help_box.destroy()
 
 
+class History:
+    def __init__(self,partner, calc_history):
+
+        background = "#a9ef99"
+
+        # disable history button
+        partner.history_button.config(state=DISABLED)
+
+        # Sets up child window (ie: history box)
+        self.history_box = Toplevel()
+
+        # If users press cross at top, closes history and 'releases' history button
+        self.history_box.protocol('WM_DELETE_WINDOW', partial(self.close_history, partner))
+
+        # Set up GUI Frame
+        self.history_frame = Frame(self.history_box, bg=background)
+        self.history_frame.grid()
+
+        # Set up history heading (row 0)
+        self.how_heading = Label(self.history_frame, text="history / Instructions",
+                                 font="arial 14 bold", bg=background)
+        self.how_heading.grid(row=0)
+
+        # history text (label, row 1)
+        self.history_text = Label(self.history_frame, text="Here are your most recent "
+                                                           "calculations. Please use the "
+                                                           "export button to create a text "
+                                                           "file of all your calculations for "
+                                                           "this session", wrap=250,
+                                                      font="arial 10 italic",
+                                                      justify=LEFT, bg=background, fg="maroon",
+                                                      padx=10, pady=10)
+        self.history_text.grid(row=1)
+
+        # History Output goes here.. (row 2)
+
+        # Generate string from list of calculations...
+        history_string = ""
+
+        if len(calc_history) >= 7:
+            for item in range(0, 7):
+                history_string += calc_history[len(calc_history)
+                                               - item - 1]+"\n"
+
+        # Dismiss and export button (row 3)
+
+        self.history_export_frame = Frame(self.history_frame)
+        self.history_export_frame.grid(row=3, pady=10)
+
+        self.dismiss_btn = Button(self.history_export_frame, text="Dismiss",
+                                  width=10, bg="orange", font="Arial 12 bold",
+                             command=partial(self.close_history, partner))
+        self.dismiss_btn.grid(row=0, pady=1)
+
+        # Export Button
+        self.export_button = Button (self.history_export_frame, text="Export",
+                                     font="Arial 12 bold")
+        self.export_button.grid(row=0, column=1)
+
+    def close_history(self, partner):
+        # Put history button back to normal...
+        partner.history_button.config(state=NORMAL)
+        self.history_box.destroy()
+
 # main routine
 if __name__ == "__main__":
     root = Tk()
-    root.title("Temperature Converter")
+    root.title("History")
     something = Converter()
     root.mainloop()
-

@@ -28,10 +28,9 @@ class Converter:
         self.temp_converter_label.grid(row=0)
 
         # history Button (row 1)
-        self.history_button = Button(self.converter_frame, text="History",
-                                  font=("Arial", "14"),
-                                  padx=10, pady=10,
-                                  command=lambda: self.history(self.all_calc_list))
+        self.history_button = Button(self.converter_frame, text="History", font=("Arial", "14"),
+                                     padx=10, pady=10,
+                                     command=lambda: self.history(self.all_calc_list))
 
         self.history_button.grid(row=1, pady=10)
 
