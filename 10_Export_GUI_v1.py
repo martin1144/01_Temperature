@@ -6,7 +6,6 @@ import random
 
 class Converter:
     def __init__(self):
-
         # Formatting variables...
         background_color = "light blue"
 
@@ -22,7 +21,7 @@ class Converter:
                               '100 degrees C is 37.8 degrees F',
                                 ]'''
 
-        self.all_calc_list = []
+        self.export = []
 
         # Converter Main Screen GUI...
         self.converter_frame = Frame(width=300, height=300, bg=background_color,
@@ -39,12 +38,9 @@ class Converter:
 
         # Export Button (row 1)
         self.export_button = Button(self.converter_frame, font=("Arial" "14" "bold"),
-                                       text="Export", width=15,
-                                       padx=10, pady=10, command=self.export)
+                                    text="Export", width=15,
+                                    padx=10, pady=10, command=self.export)
         self.export_button.grid(row=1)
-
-    def export(self):
-        get_export = Export(self)
 
 
 # main routine
