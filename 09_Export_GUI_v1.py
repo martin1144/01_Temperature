@@ -44,7 +44,7 @@ class Converter:
         self.export_button.grid(row=1)
 
     def export(self):
-        get_export = Export(self)
+        get_export = export(self)
 
 
 # main routine

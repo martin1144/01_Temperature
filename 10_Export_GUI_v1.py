@@ -42,6 +42,39 @@ class Converter:
                                     padx=10, pady=10, command=self.export)
         self.export_button.grid(row=1)
 
+    def export(self):
+        get_export = Export(self)
+
+
+
+class Export:
+    def __init__(self, partner):
+
+        background = "#a9ef99"     # Pale green
+
+        # disable export button
+        partner.export_button.config(state=DISABLED)
+
+        # Sets up child window (ie: export box)
+        self.export_box = Toplevel ()
+
+        # If users press cross at top, closes export and
+        # 'releases' export button
+        self.export_box.wm_protocol('WM_DELETE_WINDOW',
+                                    partial(self.close_export, partner))
+
+
+        # Set up GUI Frame
+        self.export_frame = Frame(self.export_box, width=300, bg=background)
+        self.export_frame.grid()
+
+        # Set up Export heading (row 0)
+        self.how_heading = Label(self.export_frame,
+                                 text="Export / Instructions",
+                                 font="arial 14 bold", bg=background)
+
+
+
 
 # main routine
 if __name__ == "__main__":
