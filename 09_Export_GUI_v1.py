@@ -40,10 +40,10 @@ class Converter:
         # Export Button (row 1)
         self.export_button = Button(self.converter_frame, font=("Arial" "14" "bold"),
                                        text="Export", width=15,
-                                       padx=10, pady=10, command=self.export)
+                                       padx=10, pady=10, command=self.all_calc_list)
         self.export_button.grid(row=1)
 
-    def export(self):
+    def export(self, all_calc_list):
         get_export = export(self)
 
 
