@@ -11,15 +11,14 @@ class Converter:
 
         # In actual program this is blank and is populated with user calculations
 
-
-        '''self.all_calc_list = ['0 degrees C is -17.8 degrees F',
+        self.all_calc_list = ['0 degrees C is -17.8 degrees F',
                               '0 degrees C is 32 degrees F',
                               '40 degrees C is 104 degrees F',
                               '40 degrees C is 4.4 degrees F',
                               '12 degrees C is 53.6 degrees F',
                               '24 degrees C is 75.2 degrees F',
                               '100 degrees C is 37.8 degrees F',
-                                ]'''
+                                ]
 
         self.export = []
 
@@ -39,11 +38,13 @@ class Converter:
         # Export Button (row 1)
         self.export_button = Button(self.converter_frame, font=("Arial" "14" "bold"),
                                     text="Export", width=15,
-                                    padx=10, pady=10, command=self.export)
+                                    padx=10, pady=10,
+                                    command=lambda: self.export(self.all_calc_list))
         self.export_button.grid(row=1)
 
-    def export(self, export):
-        Export(self, export)
+    def export(self, partner, calc_history):
+        print("you want to expoert")
+        Export(self, calc_history)
 
 
 
@@ -112,21 +113,21 @@ class Export:
 
         # Save / Cancel Frame (row 5)
         self.save_cancel_frame = Frame(self.export_frame)
-        self.save_cancel.grid(row=5, pady=10)
+        self.save_cancel_frame.grid(row=5, pady=10)
 
         # Save and Cancel Buttons (row 0 of save_cancel_frame)
         self.save_button = Button(self.save_cancel_frame, text="Save",
-                                        command=partial(lambda: self.close_export, partner))
+                                        command=partial(lambda: self.save_history, partner))
         self.save_button.grid(row=0, column=0)
 
         self.cancel_button = Button(self.save_cancel_frame, text="Cancel",
                                     command=partial(self.close_export, partner))
         self.cancel_button.grid(row=0, column=1)
 
-    def close_export(self, partner, export):
-            # Put export button back to normal..
-            partner.export_button.config(state=NORMAL)
-            self.export_box.destroy()
+    def save_history(self, partner, export):
+        # Put export button back to normal..
+        partner.export_button.config(state=NORMAL)
+        self.export_box.destroy()
 
         # Regular expression to check filename is valid
         valid_char = "[A-Za-z0-9_]"
@@ -153,7 +154,31 @@ class Export:
 
         if has_error == "yes":
             # Display error message
-self.save_error_label.config(text="Invalid filename - {}".format)
+            self.save_error_label.config(text="Invalid filename - {}".format)
+            # Change entry box background to pink
+            self.filename_entry.config(bg="#ffafaf")
+            print()
+
+        else:
+            # If there are no errors, generate text file and then close dialogue
+            # add ,txt suffix!
+            filename = filename + ".txt"
+
+            # create file to hold data
+            f = open(filename, "w+")
+
+            # add new line at end of each item
+            for item in export:
+                f.write(item + "\n")
+
+            # close file
+            f.close()
+
+            # close dialogue
+            self.close_export(partner)
+
+    def close_export(self, partner):
+        print("you want to close")
 
 # main routine
 if __name__ == "__main__":

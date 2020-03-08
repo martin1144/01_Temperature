@@ -34,13 +34,13 @@ class Converter:
 
         self.history_button.grid(row=1, pady=10)
 
-    def history(self, all_calc_list):
+    def history(self, calc_history):
         print("You asked for history")
-        History(self, all_calc_list)
+        History(self, calc_history)
 
 
 class History:
-    def __init__(self,partner, calc_history):
+    def __init__(self, partner, calc_history):
 
         background = "#a9ef99"
 
@@ -82,6 +82,22 @@ class History:
             for item in range(0, 7):
                 history_string += calc_history[len(calc_history)
                                                - item - 1]+"\n"
+
+        else:
+            for item in calc_history:
+                history_string += calc_history[len(calc_history) -
+                                               calc_history.index(item) - 1] + "\n"
+                self.history_text.config(text="Here is your calculation "
+                                              "history. You can use the "
+                                              "export button to save this "
+                                              "data to a text file if "
+                                              "desired.")
+
+
+        # Label to display calculation history to user
+        self.calc_label = Label(self.history_frame, text=history_string,
+                                bg=background,font="Arial 12", justify=LEFT)
+        self.calc_label.grid(row=2)
 
         # Dismiss and export button (row 3)
 
