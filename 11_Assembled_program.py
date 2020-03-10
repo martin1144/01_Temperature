@@ -10,7 +10,10 @@ class Converter:
         background_color = "light blue"''
 
         # Initialise list to hold calculation history
-        self.all_calculations = []
+        self.all_calculations = ['0 degrees C is 32.0 degrees F',
+                              '40 degrees C is 104.0 degrees F',
+                              '100 degrees C is 212.0 degrees F',
+                              '3 degrees C is 37.4 degrees F']
 
         # Converter Frame
         self.converter_frame = Frame(bg=background_color,
@@ -191,9 +194,8 @@ class Help:
         partner.help_button.config(state=NORMAL)
         self.help_box.destroy()
 
-
 class History:
-    def __init__(self,partner, calc_history):
+    def __init__(self, partner, calc_history):
 
         background = "#a9ef99"
 
@@ -221,9 +223,9 @@ class History:
                                                            "export button to create a text "
                                                            "file of all your calculations for "
                                                            "this session", wrap=250,
-                                                      font="arial 10 italic",
-                                                      justify=LEFT, bg=background, fg="maroon",
-                                                      padx=10, pady=10)
+                                  font="arial 10 italic",
+                                  justify=LEFT, bg=background, fg="maroon",
+                                  padx=10, pady=10)
         self.history_text.grid(row=1)
 
         # History Output goes here.. (row 2)
@@ -234,7 +236,22 @@ class History:
         if len(calc_history) >= 7:
             for item in range(0, 7):
                 history_string += calc_history[len(calc_history)
-                                               - item - 1]+"\n"
+                                               - item - 1] + "\n"
+
+        else:
+            for item in calc_history:
+                history_string += calc_history[len(calc_history) -
+                                               calc_history.index(item) - 1] + "\n"
+                self.history_text.config(text="Here is your calculation "
+                                              "history. You can use the "
+                                              "export button to save this "
+                                              "data to a text file if "
+                                              "desired.")
+
+        # Label to display calculation history to user
+        self.calc_label = Label(self.history_frame, text=history_string,
+                                bg=background, font="Arial 12", justify=LEFT)
+        self.calc_label.grid(row=2)
 
         # Dismiss and export button (row 3)
 
@@ -243,18 +260,19 @@ class History:
 
         self.dismiss_btn = Button(self.history_export_frame, text="Dismiss",
                                   width=10, bg="orange", font="Arial 12 bold",
-                             command=partial(self.close_history, partner))
+                                  command=partial(self.close_history, partner))
         self.dismiss_btn.grid(row=0, pady=1)
 
         # Export Button
-        self.export_button = Button (self.history_export_frame, text="Export",
-                                     font="Arial 12 bold")
+        self.export_button = Button(self.history_export_frame, text="Export",
+                                    font="Arial 12 bold")
         self.export_button.grid(row=0, column=1)
 
     def close_history(self, partner):
         # Put history button back to normal...
         partner.history_button.config(state=NORMAL)
         self.history_box.destroy()
+
 
 # main routine
 if __name__ == "__main__":
