@@ -34,6 +34,9 @@ class Converter:
 
         self.history_button.grid(row=1, pady=10)
 
+        if len(self.all_calc_list) == 0:
+            self.history_button.config(state=DISABLED)
+
     def history(self, calc_history):
         print("You asked for history")
         History(self, calc_history)
