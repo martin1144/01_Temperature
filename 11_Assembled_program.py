@@ -1,5 +1,7 @@
 from tkinter import *
 from functools import partial  # To prevent unwanted windows
+import re
+
 import random
 
 
@@ -261,17 +263,156 @@ class History:
         self.dismiss_btn = Button(self.history_export_frame, text="Dismiss",
                                   width=10, bg="orange", font="Arial 12 bold",
                                   command=partial(self.close_history, partner))
+
         self.dismiss_btn.grid(row=0, pady=1)
 
         # Export Button
         self.export_button = Button(self.history_export_frame, text="Export",
-                                    font="Arial 12 bold")
+                                    font="Arial 12 bold",
+                                    command=lambda: self.export(calc_history))
         self.export_button.grid(row=0, column=1)
 
     def close_history(self, partner):
         # Put history button back to normal...
         partner.history_button.config(state=NORMAL)
         self.history_box.destroy()
+
+    def export(self, calc_history):
+        Export(self, calc_history)
+
+class Export:
+        def __init__(self, partner, calc_history):
+
+            print(calc_history)
+
+            background = "#a9ef99"  # Pale green
+
+            # disable export button
+            partner.export_button.config(state=DISABLED)
+
+            # Sets up child window (ie: export box)
+            self.export_box = Toplevel()
+
+            # If users press cross at top, closes export and 'releases' export button
+            self.export_box.protocol('WM_DELETE_WINDOW', partial(self.close_export, partner))
+
+            # Set up GUI Frame
+            self.export_frame = Frame(self.export_box, width=300, bg=background)
+            self.export_frame.grid()
+
+            # Set up Help heading (row 0)
+            self.how_heading = Label(self.export_frame, text="Export / Instructions",
+                                     font="arial 14 bold", bg=background)
+            self.how_heading.grid(row=0)
+
+            # Help text (label, row 1)
+            self.export_text = Label(self.export_frame, text="Enter a filename"
+                                                             "in the box below "
+                                                             "and press the Save "
+                                                             "button to save your "
+                                                             "calculation history "
+                                                             "to a text file.",
+                                     justify=LEFT, width=40, bg=background, wrap=250)
+            self.export_text.grid(row=1)
+
+            # Dismiss button (row 2)
+            self.dismiss_btn = Button(self.export_frame, text="If the filename "
+                                                              "you enter below "
+                                                              "already exists, "
+                                                              "its contents will "
+                                                              "be replaced with "
+                                                              "your calculation "
+                                                              "history",
+                                      justify=LEFT, bg="#ffafaf", fg="maroon",
+                                      font="Arial 10 italic", wrap=225, padx=10,
+                                      pady=10, command=partial(self.close_export, partner))
+
+            self.export_text.grid(row=2, pady=10)
+
+            # Filename Entry Box (row 3)
+            self.filename_entry = Entry(self.export_frame, width=20,
+                                        font="Arial 14 bold", justify=CENTER)
+            self.filename_entry.grid(row=3, pady=10)
+
+            # Error Message Lables (initially blank, row 4)
+            self.save_error_label = Label(self.export_frame, text="", fg="maroon",
+                                          bg=background)
+            self.save_error_label.grid(row=4)
+
+            # Save / Cancel Frame (row 5)
+            self.save_cancel_frame = Frame(self.export_frame)
+            self.save_cancel_frame.grid(row=5, pady=10)
+
+            # Save and Cancel Buttons (row 0 if save_cancel_frame)
+            self.save_button = Button(self.save_cancel_frame, text="Save",
+                                      command=partial(lambda: self.save_history(partner, calc_history)))
+            self.save_button.grid(row=0, column=0)
+
+            self.cancel_button = Button(self.save_cancel_frame, text="Cancel",
+                                        command=partial(self.close_export, partner))
+            self.cancel_button.grid(row=0, column=1)
+
+        def close_export(self, partner):
+            # Put export button back to normal...
+            partner.export_button.config(state=NORMAL)
+            self.export_box.destroy()
+
+        def close_export(self, partner):
+            # Put export button back to normal...
+            partner.export_button.config(state=NORMAL)
+            self.export_box.destroy()
+
+        def save_history(self, partner, calc_history):
+
+            # Regular expression to check filename is valid
+            valid_char = "[A-Za-z0-9_]"
+            has_error = "no"
+
+            filename = self.filename_entry.get()
+            print(filename)
+
+            for letter in filename:
+                if re.match(valid_char, letter):
+                    continue
+
+                elif letter == " ":
+                    problem = "(no spaces allowed)"
+
+                else:
+                    problem = ("no {}'s allowed)".format(letter))
+                has_error = "yes"
+                break
+
+            if filename == "":
+                problem = "can't be blank"
+                has_error = "yes"
+
+            if has_error == "yes":
+                # Display error message
+                self.save_error_label.config(text="Invalid filename - {}".format(problem))
+                # Change enrtr box background to pink
+                self.filename_entry.config(bg="#ffafaf")
+                print()
+
+            else:
+                # If there are no errors, generate text file and then close dialogue
+                # add .txt suffix!
+                filename = filename + ".txt"
+
+                # create file to hold data
+                f = open(filename, "w+")
+
+                # add new line at end of each item
+                for item in calc_history:
+                    f.write(item + "\n")
+
+                # close file
+                f.close()
+
+                # close dialogue
+                self.close_export(partner)
+
+
 
 
 # main routine

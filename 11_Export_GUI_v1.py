@@ -4,7 +4,7 @@ import random
 
 
 class Converter:
-        def __init__(self):
+        def __init__(self, ):
 
             # Formatting variables..
             background_color = "light blue"
@@ -33,7 +33,9 @@ class Converter:
 
 
 class Export:
-    def __init__(self, partner):
+    def __init__(self, partner, calc_history):
+
+        print(calc_history)
 
         background = "#a9ef99"    # Pale green
 

@@ -114,13 +114,18 @@ class History:
 
         # Export Button
         self.export_button = Button (self.history_export_frame, text="Export",
-                                     font="Arial 12 bold")
+                                     font="Arial 12 bold",
+                                     command=lambda: self.export(calc_history))
         self.export_button.grid(row=0, column=1)
 
     def close_history(self, partner):
         # Put history button back to normal...
         partner.history_button.config(state=NORMAL)
         self.history_box.destroy()
+
+    def export(self, calc_history):
+        Export(self, calc_history)
+
 
 # main routine
 if __name__ == "__main__":
