@@ -151,7 +151,15 @@ class Converter:
     def help(self):
         print("You asked for help")
         get_help = Help(self)
-        get_help.help_text.configure(text="Help text goes here")
+        get_help.help_text.configure(text="Please enter a number in the box "
+                                          "and then push one of the buttons "
+                                          " to convert the number to either  "
+                                          "degrees C or degrees F.\n\n"
+                                          "The Calculation History area shows "
+                                          "up to seven past calculations "
+                                          "(most recent at the top).  \n\nYou can "
+                                          "also export your full calculations "
+                                          "history to a text file if desired.")
 
     def history(self, all_calc_list):
         print("You asked for history")
@@ -176,7 +184,7 @@ class Help:
         self.help_frame.grid()
 
         # Set up Help heading (row 0)
-        self.how_heading = Label(self.help_frame, text="help / Instructions",
+        self.how_heading = Label(self.help_frame, text="Help / Instructions",
                                  font="arial 14 bold", bg=background)
         self.how_heading.grid(row=0)
 
@@ -215,7 +223,7 @@ class History:
         self.history_frame.grid()
 
         # Set up history heading (row 0)
-        self.how_heading = Label(self.history_frame, text="history / Instructions",
+        self.how_heading = Label(self.history_frame, text="History / Instructions",
                                  font="arial 14 bold", bg=background)
         self.how_heading.grid(row=0)
 
@@ -306,17 +314,18 @@ class Export:
             self.how_heading.grid(row=0)
 
             # Help text (label, row 1)
-            self.export_text = Label(self.export_frame, text="Enter a filename"
+            self.export_text = Label(self.export_frame, text="Enter a filename "
                                                              "in the box below "
                                                              "and press the Save "
                                                              "button to save your "
                                                              "calculation history "
                                                              "to a text file.",
-                                     justify=LEFT, width=40, bg=background, wrap=250)
+                                     justify=LEFT, width=40,
+                                        bg=background, wrap=250)
             self.export_text.grid(row=1)
 
             # Dismiss button (row 2)
-            self.dismiss_btn = Button(self.export_frame, text="If the filename "
+            self.export_text = Button(self.export_frame, text="If the filename "
                                                               "you enter below "
                                                               "already exists, "
                                                               "its contents will "
@@ -357,11 +366,6 @@ class Export:
             partner.export_button.config(state=NORMAL)
             self.export_box.destroy()
 
-        def close_export(self, partner):
-            # Put export button back to normal...
-            partner.export_button.config(state=NORMAL)
-            self.export_box.destroy()
-
         def save_history(self, partner, calc_history):
 
             # Regular expression to check filename is valid
@@ -390,7 +394,7 @@ class Export:
             if has_error == "yes":
                 # Display error message
                 self.save_error_label.config(text="Invalid filename - {}".format(problem))
-                # Change enrtr box background to pink
+                # Change entry box background to pink
                 self.filename_entry.config(bg="#ffafaf")
                 print()
 
