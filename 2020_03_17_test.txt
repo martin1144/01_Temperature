@@ -1,0 +1,9 @@
+0 degrees C is 32.0 degrees F
+40 degrees C is 104.0 degrees F
+100 degrees C is 212.0 degrees F
+3 degrees C is 37.4 degrees F
+-273 degrees C is -459.4 degrees F
+Too Cold!
+-459 degrees C is -272.8 degrees F
+Too Cold!
+25 degrees C is -3.9 degrees F

@@ -12,10 +12,7 @@ class Converter:
         background_color = "light blue"''
 
         # Initialise list to hold calculation history
-        self.all_calculations = ['0 degrees C is 32.0 degrees F',
-                              '40 degrees C is 104.0 degrees F',
-                              '100 degrees C is 212.0 degrees F',
-                              '3 degrees C is 37.4 degrees F']
+        self.all_calculations = []
 
         # Converter Frame
         self.converter_frame = Frame(bg=background_color,
@@ -77,6 +74,10 @@ class Converter:
                                        command=lambda: self.history(self.all_calculations))
         self.history_button.grid(row=0, column=0,)
 
+        # Disable button at start (no calculations in history)
+        if len(self.all_calculations) == 0:
+            self.history_button.config(state=DISABLED)
+
         self.help_button = Button(self.hist_help_frame, font="Arial 12 bold",
                                   text="Help", width=5, command=self.help)
         self.help_button.grid(row=0, column=1)
@@ -112,25 +113,18 @@ class Converter:
                 answer = "Too Cold!"
                 has_errors = "yes"
 
-            # Check amount is a valid number
-
-            # Convert to F
-
-            # Convert to C
-
-            # Round!!
-
             # Display answer
             if has_errors == "no":
                 self.converted_label.configure(text=answer, fg="blue")
                 self.to_convert_entry.configure(bg="white")
             else:
-                self.converted_label.configure(text=answer, fg="blue")
+                self.converted_label.configure(text=answer, fg="red")
                 self.to_convert_entry.configure(bg=error)
+
             # Add Answer to list for history
-            if answer != "Too Cold":
+            if answer != "Too Cold!":
                 self.all_calculations.append(answer)
-                print(self.all_calculations)
+                self.history_button.config(state=NORMAL)
 
             else:
                 self.converted_label.configure(text=answer, fg="red")
@@ -164,6 +158,7 @@ class Converter:
     def history(self, all_calc_list):
         print("You asked for history")
         History(self, all_calc_list)
+
 
 class Help:
     def __init__(self, partner):
@@ -203,6 +198,7 @@ class Help:
         # Put help button back to normal...
         partner.help_button.config(state=NORMAL)
         self.help_box.destroy()
+
 
 class History:
     def __init__(self, partner, calc_history):
